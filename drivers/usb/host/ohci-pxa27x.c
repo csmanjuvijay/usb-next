@@ -106,7 +106,8 @@
 #define UHCHIE_UPS2IE	(1 << 12)	/* Power Sense Port2 IntEn */
 #define UHCHIE_UPS1IE	(1 << 11)	/* Power Sense Port1 IntEn */
 #define UHCHIE_TAIE	(1 << 10)	/* HCI Interface Transfer Abort
-					   Interrupt Enable*/
+					 * Interrupt Enable
+					 */
 #define UHCHIE_HBAIE	(1 << 8)	/* HCI Buffer Active IntEn */
 #define UHCHIE_RWIE	(1 << 7)	/* Remote Wake-up IntEn */
 
@@ -128,14 +129,14 @@ struct pxa27x_ohci {
 #define to_pxa27x_ohci(hcd)	(struct pxa27x_ohci *)(hcd_to_ohci(hcd)->priv)
 
 /*
-  PMM_NPS_MODE -- PMM Non-power switching mode
-      Ports are powered continuously.
-
-  PMM_GLOBAL_MODE -- PMM global switching mode
-      All ports are powered at the same time.
-
-  PMM_PERPORT_MODE -- PMM per port switching mode
-      Ports are powered individually.
+ * PMM_NPS_MODE -- PMM Non-power switching mode
+ *     Ports are powered continuously.
+ *
+ * PMM_GLOBAL_MODE -- PMM global switching mode
+ *     All ports are powered at the same time.
+ *
+ * PMM_PERPORT_MODE -- PMM per port switching mode
+ *     Ports are powered individually.
  */
 static int pxa27x_ohci_select_pmm(struct pxa27x_ohci *pxa_ohci, int mode)
 {
@@ -157,10 +158,7 @@ static int pxa27x_ohci_select_pmm(struct pxa27x_ohci *pxa_ohci, int mode)
 		uhcrhdb |= (0x7<<17);
 		break;
 	default:
-		printk( KERN_ERR
-			"Invalid mode %d, set to non-power switch mode.\n",
-			mode );
-
+		dev_err(mode, "Invalid mode %d,set to non-power switch mode.\n");
 		uhcrhda |= RH_A_NPS;
 	}
 

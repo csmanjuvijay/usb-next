@@ -1,15 +1,15 @@
 /*
-* Driver for EHCI HCD on SPEAr SOC
-*
-* Copyright (C) 2010 ST Micro Electronics,
-* Deepak Sikri <deepak.sikri@st.com>
-*
-* Based on various ehci-*.c drivers
-*
-* This file is subject to the terms and conditions of the GNU General Public
-* License. See the file COPYING in the main directory of this archive for
-* more details.
-*/
+ * Driver for EHCI HCD on SPEAr SOC
+ *
+ * Copyright (C) 2010 ST Micro Electronics,
+ * Deepak Sikri <deepak.sikri@st.com>
+ *
+ * Based on various ehci-*.c drivers
+ *
+ * This file is subject to the terms and conditions of the GNU General Public
+ * License. See the file COPYING in the main directory of this archive for
+ * more details.
+ */
 
 #include <linux/clk.h>
 #include <linux/dma-mapping.h>
@@ -60,7 +60,7 @@ static SIMPLE_DEV_PM_OPS(ehci_spear_pm_ops, ehci_spear_drv_suspend,
 
 static int spear_ehci_hcd_drv_probe(struct platform_device *pdev)
 {
-	struct usb_hcd *hcd ;
+	struct usb_hcd *hcd;
 	struct spear_ehci *sehci;
 	struct resource *res;
 	struct clk *usbh_clk;
@@ -128,7 +128,7 @@ err_put_hcd:
 fail:
 	dev_err(&pdev->dev, "init fail, %d\n", retval);
 
-	return retval ;
+	return retval;
 }
 
 static int spear_ehci_hcd_drv_remove(struct platform_device *pdev)

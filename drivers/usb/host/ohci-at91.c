@@ -41,7 +41,7 @@
 struct at91_usbh_data {
 	struct gpio_desc *vbus_pin[AT91_MAX_USBH_PORTS];
 	struct gpio_desc *overcurrent_pin[AT91_MAX_USBH_PORTS];
-	u8 ports;				/* number of ports on root hub */
+	u8 ports;			/* number of ports on root hub */
 	u8 overcurrent_supported;
 	u8 vbus_pin_active_low[AT91_MAX_USBH_PORTS];
 	u8 overcurrent_status[AT91_MAX_USBH_PORTS];
@@ -134,7 +134,7 @@ static void at91_stop_hc(struct platform_device *pdev)
 
 /*-------------------------------------------------------------------------*/
 
-static void usb_hcd_at91_remove (struct usb_hcd *, struct platform_device *);
+static void usb_hcd_at91_remove(struct usb_hcd *, struct platform_device *);
 
 static struct regmap *at91_dt_syscon_sfr(void)
 {
@@ -469,29 +469,31 @@ static irqreturn_t ohci_hcd_at91_overcurrent_irq(int irq, void *data)
 	int val, port;
 
 	/* From the GPIO notifying the over-current situation, find
-	 * out the corresponding port */
+	 * out the corresponding port
+	 */
 	at91_for_each_port(port) {
 		if (gpiod_to_irq(pdata->overcurrent_pin[port]) == irq)
 			break;
 	}
 
 	if (port == AT91_MAX_USBH_PORTS) {
-		dev_err(& pdev->dev, "overcurrent interrupt from unknown GPIO\n");
+		dev_err(&pdev->dev, "overcurrent interrupt from unknown GPIO\n");
 		return IRQ_HANDLED;
 	}
 
 	val = gpiod_get_value(pdata->overcurrent_pin[port]);
 
 	/* When notified of an over-current situation, disable power
-	   on the corresponding port, and mark this port in
-	   over-current. */
+	 *  on the corresponding port, and mark this port in
+	 *  over-current.
+	 */
 	if (!val) {
 		ohci_at91_usb_set_power(pdata, port, 0);
 		pdata->overcurrent_status[port]  = 1;
 		pdata->overcurrent_changed[port] = 1;
 	}
 
-	dev_dbg(& pdev->dev, "overcurrent situation %s\n",
+	dev_dbg(&pdev->dev, "overcurrent situation %s\n",
 		val ? "exited" : "notified");
 
 	return IRQ_HANDLED;
@@ -625,7 +627,7 @@ ohci_hcd_at91_drv_suspend(struct device *dev)
 		ohci->rh_state = OHCI_RH_HALTED;
 
 		/* flush the writes */
-		(void) ohci_readl (ohci, &ohci->regs->control);
+		(void) ohci_readl(ohci, &ohci->regs->control);
 		at91_stop_clock(ohci_at91);
 	}
 
